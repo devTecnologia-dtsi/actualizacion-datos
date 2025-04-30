@@ -1,0 +1,3 @@
+.col-span-custom-3 {
+    grid-column: span 3 / span 4;
+}

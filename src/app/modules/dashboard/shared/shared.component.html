@@ -1,0 +1,75 @@
+<div class="h-auto w-auto overflow-visible">
+    <div class="flex grow flex-col content-start bg-gray-100 overflow-visible">
+        <app-navbar class="z-0" [datos]="datos"></app-navbar>
+        <div class="hidden md:block md:mb-6 md:px-4 sm:px-6 lg:px-8">
+            <h1 class="text-sm md:text-xl font-semibold text-gray-900 dark:text-white">
+                Bienvenido a Uniminuto, {{ datos.nombres | titlecase }}
+            </h1>
+        </div>
+
+        <div class="grid grid-cols-1 gap-1 grid-rows-1 md:grid-cols-4 md:gap-2 rounded m-2 overflow-visible">
+            <div class="col-span-1 md:col-span-2 lg:col-span-1 rounded bg-white p-3">
+                <h2 class="text-base md:text-2xl font-semibold text-black pb-4">
+                    Datos académicos
+                </h2>
+                <div class="block text-xs md:text-base"><strong>id Genesis</strong><span>: {{datos.idBanner}}</span>
+                </div>
+                <div class="block text-xs md:text-base break-words whitespace-normal">
+                    <strong>
+                        Correo:
+                    </strong>
+                    <span>
+                        {{datos.mail}}
+                    </span>
+                </div>
+                <div class="block text-xs md:text-base"><strong>Estado</strong><span>:{{datos.estado}}</span></div>
+                <h2 class="pt-1">
+                    <hr class="my-2 border-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent">
+                </h2>
+                <div *ngIf="academia">
+                    <ng-container *ngFor="let aca of academia">
+                        <div class="block text-xs md:text-base"><strong>Programa</strong>
+                            <span>: {{aca.PROGRAMAACADEMICO |titlecase }}</span>
+                        </div>
+                        <div class="hidden md:block text-xs md:text-base"><strong>Rectoria</strong>
+                            <span>: {{aca.DESCRECTORIA |titlecase}}</span>
+                        </div>
+                        <div class="hidden md:block text-xs md:text-base"><strong>Nivel</strong>
+                            <span>: {{aca.DESCRIPCIONNIVEL}}</span>
+                        </div>
+                        <div class="hidden md:block text-xs md:text-base"><strong>Facultad</strong>
+                            <span>: {{aca.FACULTAD}}</span>
+                        </div>
+                        <div class="block text-xs md:text-base"><strong>Periodo</strong>
+                            <span>: {{aca.PERIODOPROGRAMA}}</span>
+                        </div>
+
+                        <div class="block text-xs md:text-base"><strong>Sede</strong>
+                            <span>: {{aca.SEDE|titlecase}}</span>
+                        </div>
+                        <hr class="pt-4 bg-white border-0">
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 rounded bg-white overflow-visible">
+                <div class="flex-col rounded-lg bg-white p-3 sm:flex-row overflow-visible">
+                    <h2 class="text-base md:text-2xl font-semibold text-black pb-10">Modificar información
+                        personal
+                    </h2>
+                    <app-formulario-tabla [idBanner]="datos.idBanner!" [correoAca]="datos.mail!"
+                        [datosPersonales]="datosPersonales" class="mb-2"></app-formulario-tabla>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="cargado"
+    class="fixed inset-0 w-full h-full bg-gray-700 bg-opacity-90 flex items-center justify-center z-50">
+    <div class="flex flex-col items-center">
+        <!-- Loader grande y visible -->
+        <div class="animate-spin rounded-full h-24 w-24 border-4 border-t-transparent border-white"></div>
+
+        <!-- Texto opcional (puedes quitarlo si no lo necesitas) -->
+        <p class="mt-4 text-white font-medium text-lg">Cargando...</p>
+    </div>
+</div>

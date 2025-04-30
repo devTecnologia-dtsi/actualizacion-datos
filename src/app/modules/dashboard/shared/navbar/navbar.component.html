@@ -1,0 +1,25 @@
+<div class="relative md:mb-5 bg-white">
+    <div class="mx-auto ">
+        <div class="flex items-center justify-between px-16 py-3.5 md:justify-start ">
+            <!-- Mobile Navigation Menu Button-->
+            <div class="sm:order-1 md:hidden ">
+                <button (click)="toggleMobileMenu()" type="button" class="inline-flex items-center justify-center rounded-md  p-2 text-gray-400 focus:outline-none focus:ring-2 
+                    focus:ring-inset focus:ring-primary-500 hover:bg-gray-100 hover:text-gray-500"
+                    aria-expanded="false">
+                    <span class="sr-only">Abrir menu</span>
+                    <!-- Heroicon name: outline/menu -->
+                    <a src="assets/icons/outline/menu.svg" class="'h-6 w-6'"> </a>
+                </button>
+            </div>
+            <!-- Logo -->
+            <div class="flex items-center justify-start sm:order-2 md:mr-10 lg:mr-10">
+                <div class="flex items-center">
+                    <img src="assets/logoUniminuto.png" class="w-2/4 sm:w-2/4 md:w-1/3 lg:w-1/6 flex-none mr-auto">
+                    <b class="hidden pl-3 text-sm font-bold sm:block flex-auto">Actualiza tus
+                        datos</b>
+                    <app-profile-menu [usuario]="datos" class="flex ml-auto z-40"></app-profile-menu>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

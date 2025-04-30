@@ -1,0 +1,242 @@
+<form class="max-w-prose mx-auto" [formGroup]="myForm" (ngSubmit)="enviarDatos()">
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 overflow-visible">
+        <div class="relative w-full mb-5 group overflow-visible">
+            <input type="text" name="floating_pais" id="floating_pais" formControlName="pais" autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                 focus:ring-0 focus:border-blue-600 peer" placeholder="" (focus)="myForm.get('pais')!.reset()" />
+            <label for="floating_pais" class="pointer-events-none peer-focus:font-medium absolute text-sm text-gray-500 duration-300 
+                 transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                 peer-focus:scale-75 peer-focus:-translate-y-6">
+                <span class="text-red-500">*</span> País de residencia
+            </label>
+            <ul id="pais-list" class="absolute z-50 top-full left-0 bg-white border border-gray-200 w-full rounded shadow 
+                 max-h-40 overflow-y-auto mt-1" *ngIf="myForm.get('pais')!.value && paisesFiltrados.length > 0">
+                <li *ngFor="let pais of paisesFiltrados" class="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                    (click)="seleccionarPais(pais.prefijo, pais.prefijo_banner, pais.nombre)">
+                    {{ pais.nombre }}
+                </li>
+            </ul>
+            <p *ngIf="validacion('pais')" class="text-red-500 text-xs italic">{{errorPais}}</p>
+        </div>
+        <div class="relative w-full mb-5 group">
+            <input type="text" name="floating_departamento" id="floating_departamento" formControlName="departamento"
+                autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                 focus:ring-0 focus:border-blue-600 peer" placeholder="" onclick=""
+                (click)="loadDepartamentos(pais.nombre)" (focus)="myForm.get('departamento')!.reset()" />
+            <label for="floating_departamento" class="pointer-events-none peer-focus:font-medium absolute text-sm text-gray-500 duration-300 
+                 transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                 peer-focus:scale-75 peer-focus:-translate-y-6">
+                <span class="text-red-500">*</span> Estado/Provincia/Departamento
+            </label>
+            <ul id="departamento-list" class="absolute z-50 top-full left-0 bg-white border border-gray-200 w-full rounded shadow 
+                 max-h-40 overflow-y-auto mt-1"
+                *ngIf="myForm.get('departamento')!.value && deptosFiltrados.length > 0">
+                <li *ngFor="let departamento of deptosFiltrados" class="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                    (click)="seleccionarDepartamento(departamento.banner_id!, departamento.nombre!)">
+                    {{ departamento.nombre }}
+                </li>
+            </ul>
+            <p *ngIf="validacion('departamento')" class="text-red-500 text-xs italic">{{errorDepartamento}}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <!-- Campo: Ciudad/Municipio/Distrito -->
+        <div class="relative w-full mb-5 group">
+            <input type="text" name="floating_municipio" id="floating_municipio" formControlName="municipio"
+                autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                     border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                     focus:ring-0 focus:border-blue-600 peer" placeholder="" placeholder=""
+                (click)="loadMunicipios(departamento.nombre!)" (focus)="myForm.get('municipio')!.reset()"/>
+            <label for="floating_municipio" class="pointer-events-none peer-focus:font-medium absolute text-sm text-gray-500 duration-300 
+                     transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                     rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                     peer-focus:scale-75 peer-focus:-translate-y-6">
+                <span class="text-red-500">*</span> Ciudad/Municipio/Distrito
+            </label>
+            <ul id="municipio-list" class="absolute z-50 top-full left-0 bg-white border border-gray-200 w-full rounded shadow 
+                max-h-40 overflow-y-auto mt-1"
+                *ngIf="myForm.get('municipio')!.value && municipiosFiltrados.length > 0">
+                <li *ngFor="let municipio of municipiosFiltrados" class="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                    (click)="seleccionarMunicipio(municipio.banner_id!, municipio.nombre!)">
+                    {{ municipio.nombre }}
+                </li>
+            </ul>
+            <p *ngIf="validacion('municipio')" class="text-red-500 text-xs italic">{{errorMunicipio}}</p>
+        </div>
+
+        <!-- Campo: Barrio -->
+        <div class="relative w-full mb-5 group">
+            <input type="text" name="floating_barrio" id="floating_barrio" formControlName="barrio" autocomplete="off"
+                class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                     border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                     focus:ring-0 focus:border-blue-600 peer" placeholder="" onclick="" />
+            <label for="floating_barrio" class="pointer-events-none peer-focus:font-medium absolute text-sm text-gray-500 duration-300 
+                     transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                     rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                     peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                     peer-focus:scale-75 peer-focus:-translate-y-6">
+                <span class="text-red-500">*</span> Barrio/Comuna
+            </label>
+            <p *ngIf="validacion('barrio')" class="text-red-500 text-xs italic">{{errorBarrio}}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4">
+        <div class="flex gap-2">
+            <!-- Campo: Tipo de dirección -->
+            <div class="relative w-1/4 mb-5 group">
+
+                <select formControlName="tipoDireccion" name="floating_tipoDireccion" id="floating_tipoDireccion" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                    border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                    focus:ring-0 focus:border-blue-600 peer" placeholder="" onclick="">
+                    <option *ngFor="let option of tipoDirOp" [value]="option.label">
+                        {{ option.value }}
+                    </option>
+                </select>
+                <label for="floating_tipoDireccion" class="pointer-events-none peer-focus:font-medium absolute text-sm text-gray-500 duration-300 
+                 transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    <span class="text-red-500">*</span> Tipo
+                </label>
+                <p *ngIf="validacion('tipoDireccion')" class="text-red-500 text-xs italic">{{errortipoDireccion}}</p>
+            </div>
+
+            <div class="relative w-3/4 mb-5 group">
+                <input type="text" name="floating_direccion" id="floating_direccion" formControlName="direccion"
+                    autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                 focus:ring-0 focus:border-blue-600 peer" placeholder="" onclick="" (click)="showModal = true" />
+                <label for="floating_direccion" class="pointer-events-none peer-focus:font-medium absolute text-sm text-gray-500 duration-300 
+                 transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                 peer-focus:scale-75 peer-focus:-translate-y-6">
+                    <span class="text-red-500">*</span> Dirección
+                </label>
+                <p *ngIf="validacion('direccion')" class="text-red-500 text-xs italic">{{errorDireccion}}</p>
+            </div>
+            <app-modal-direccion *ngIf="showModal" (close)="showModal = false"
+                (enviarDireccion)="recibirDireccion($event)"></app-modal-direccion>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4">
+        <div class="relative w-full mb-5 group">
+            <input type="text" name="correo" id="correo" formControlName="correo" autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+             border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+             focus:ring-0 focus:border-blue-600 peer" placeholder="" onclick="" />
+            <label for="correo" class="pointer-events-none peer-focus:font-medium absolute text-sm text-gray-500 duration-300 
+             transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+             rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+             peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+             peer-focus:scale-75 peer-focus:-translate-y-6">
+                <span class="text-red-500">*</span> Correo
+            </label>
+            <p *ngIf="validacion('correo')" class="text-red-500 text-xs italic">{{errorCorreo}}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="flex gap-2">
+            <div class="relative w-2/6 mb-5 group">
+                <input type="text" name="floating_telefonoCode" id="floating_telefonoCode"
+                    formControlName="telefonoCode" autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                           border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                           focus:ring-0 focus:border-blue-600 peer" placeholder="" />
+                <label for="floating_telefonoCode" class="pointer-events-none peer-focus:font-medium absolute text-xs sm:text-sm text-gray-500 duration-300 
+                           transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                           rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                           peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                           peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Área
+                </label>
+            </div>
+
+            <div class="relative flex-1 mb-5 group">
+                <input type="text" name="floating_telefono" id="floating_telefono" formControlName="telefono"
+                    autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                           border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                           focus:ring-0 focus:border-blue-600 peer" placeholder="" />
+                <label for="floating_telefono" class="pointer-events-none peer-focus:font-medium absolute text-xs sm:text-sm text-gray-500 duration-300 
+                           transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                           rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                           peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                           peer-focus:scale-75 peer-focus:-translate-y-6">
+                    Teléfono
+                </label>
+                <p *ngIf="validacion('telefono')" class="text-red-500 text-xs italic">{{errorTel}}</p>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <div class="relative w-2/6 mb-5 group">
+                <input type="text" name="floating_celularCode" id="floating_celularCode" formControlName="celularCode"
+                    autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                           border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                           focus:ring-0 focus:border-blue-600 peer" placeholder="" />
+                <label for="floating_celularCode" class="pointer-events-none peer-focus:font-medium absolute text-xs sm:text-sm text-gray-500 duration-300 
+                                                  transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                                                  rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                                                  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                                                  peer-focus:scale-75 peer-focus:-translate-y-6">
+                    <span class="text-red-500">*</span> Área
+                </label>
+            </div>
+
+            <div class="relative flex-1 mb-5 group overflow-visible">
+                <input type="text" name="floating_celular" id="floating_celular" formControlName="celular"
+                    autocomplete="off" class="outline-none block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent 
+                           border-0 border-b-2 border-gray-300 appearance-none focus:outline-none 
+                           focus:ring-0 focus:border-blue-600 peer" placeholder="" onclick="" />
+                <label for="floating_celular" class="pointer-events-none peer-focus:font-medium absolute text-xs sm:text-sm text-gray-500 duration-300 
+                    transform -translate-y-6 scale-75 top-3 origin-[0] peer-focus:start-0 
+                    rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 
+                    peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 
+                    peer-focus:scale-75 peer-focus:-translate-y-6">
+                    <span class="text-red-500">*</span> Celular
+                </label>
+                <p *ngIf="validacion('celular')" class="text-red-500 text-xs italic">{{errorCelular}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 sm:gap-0 pt-6 sm:pt-12 px-4 sm:px-0">
+        <!-- Botón Actualizar datos -->
+        <div class="w-full sm:w-1/2 flex justify-center items-center">
+            <button
+                class="bg-primary-500 hover:bg-primary-600 w-full sm:w-4/5 text-white font-bold py-3 sm:py-2 px-4 rounded-full transition-colors duration-200"
+                type="submit">
+                Actualizar datos
+            </button>
+        </div>
+
+        <!-- Botón Actualizar foto -->
+        <div class="w-full sm:w-1/2 flex justify-center items-center">
+            <a (click)="actualizarFoto()"
+                class="bg-blue-600 hover:bg-blue-900 w-full sm:w-4/5 text-white font-bold py-3 sm:py-2 px-4 rounded-full flex justify-center items-center transition-colors duration-200 cursor-pointer">
+                Actualizar tu foto
+            </a>
+        </div>
+    </div>
+
+    <div *ngIf="actualizando"
+        class="fixed inset-0 w-full h-full bg-gray-700 bg-opacity-90 flex items-center justify-center">
+        <div class="flex flex-col items-center">
+            <!-- Loader grande y visible -->
+            <div class="animate-spin rounded-full h-24 w-24 border-4 border-t-transparent border-white"></div>
+
+            <!-- Texto opcional (puedes quitarlo si no lo necesitas) -->
+            <p class="mt-4 text-white font-medium text-lg">Actualizando...</p>
+        </div>
+    </div>
+
+</form>

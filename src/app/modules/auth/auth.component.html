@@ -1,0 +1,41 @@
+<div class="flex min-h-screen w-screen">
+  <!-- <div class="flex-grow"> -->
+  <!-- <div class="flex h-screen flex-grow"> -->
+  <div class="auth-bg hidden flex-none items-center justify-center azul-institucional bg-cover lg:flex">
+    <div class="max-w-xl space-y-4 pl-6 pr-6 text-center text-white">
+      <img src="./assets/images/auth-screens.png" class="w-3/5 mx-auto" alt="dashboard widget" />
+      <h1 class="text-3xl font-bold">Eres muy importante</h1>
+      <h2 class="text-xl">Actualiza tus datos más rápido</h2>
+      <p class="text-sm font-light text-justify">
+        Queremos consolidar relaciones más cercanas y en doble vía
+        <span class="cursor-pointer font-medium amarillo-institucional">contigo</span>.
+        Te invitamos a actualizar tus datos; de esta forma disfrutas de información interesante sobre servicios y
+        beneficios preparados para ti y realimentas nuestra Institución para los procesos de calidad y formación
+        integral. A continuación puedes verificar tu información y
+        en caso de requerirlo modificarla con tus datos <span
+          class="cursor-pointer font-medium text-yellow-400">actuales.</span>
+      </p>
+    </div>
+  </div>
+  <div class="flex flex-auto items-center justify-center bg-white dark:bg-night-700">
+    <div class="max-w-md px-4 sm:w-[500px]">
+      <!-- logo -->
+      <div class="flex items-center justify-center p-2 flex-shrink-0">
+        <a class="rounded flex-1">
+          <img src="assets/logoUniminuto.png" alt="Logo de UNIMINUTO" class="w-1/2 max-w-full flex-shrink-0">
+        </a>
+        <p class="text-md pl-3 font-bold text-gray-700 dark:text-white py-2">{{miga}}</p>
+      </div>
+      <!-- div exclusivo para dispositivos moviles -->
+      <div class="max-h-9 space-y-4 p-8 text-center text-black block lg:hidden">
+        <p class="text-xs font-light text-justify">
+          Queremos consolidar relaciones más cercanas y en doble vía
+          <span class="cursor-pointer font-medium amarillo-institucional">contigo.</span>
+          Te invitamos a actualizar tus datos; de esta forma disfrutas de información interesante sobre servicios y
+          beneficios preparados para ti.
+      </div>
+      <!-- Route -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
