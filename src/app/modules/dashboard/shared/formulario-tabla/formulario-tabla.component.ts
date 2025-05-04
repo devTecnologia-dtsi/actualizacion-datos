@@ -252,7 +252,7 @@ export class FormularioTablaComponent {
     this.myForm.patchValue({
       telefono: this.datosPersonales.TELEFONORESIDENCIA,
       celular: this.datosPersonales.TELEFONOMOVIL,
-      correo: this.datosPersonales.EMAILESTU,
+      correo: this.datosPersonales.EMAIL,
       tipoDireccion: this.datosPersonales.TIPODIRECCION,
       direccion: this.datosPersonales.DIRECCIONRESIDENCIA,
       barrio: this.datosPersonales.BARRIORESIDENCIA,
@@ -418,6 +418,9 @@ export class FormularioTablaComponent {
       pais: this.pais.prefijo_banner,
       direccion: this.myForm.get('direccion')?.value
     };
+    if (datos.telefono === undefined || datos.telefono === null || datos.telefono === '') {
+      datos.telefono = 'No aplica';
+    }
     this._umd.actualizarDatos(this.idBanner, datos).subscribe({
       next: (res) => {
         if (res) {

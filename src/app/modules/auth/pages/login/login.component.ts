@@ -26,13 +26,13 @@ export class LoginComponent {
   ) { }
   ngOnInit(): void {
     this.form = this._formBuilder.group({
-      documento: ['1019059352', [
+      documento: ['', [
         Validators.required,
         Validators.minLength(4),
         Validators.pattern(/^[0-9]*$/),
       ]],
-      nacimiento: ['1991-04-06', [Validators.required, Validators.pattern('^\\d{4}-\\d{2}-\\d{2}$')]],
-      expedicion: ['2009-04-20', [Validators.required, Validators.pattern('^\\d{4}-\\d{2}-\\d{2}$')]],
+      nacimiento: ['', [Validators.required, Validators.pattern('^\\d{4}-\\d{2}-\\d{2}$')]],
+      expedicion: ['', [Validators.required, Validators.pattern('^\\d{4}-\\d{2}-\\d{2}$')]],
       politica: [true, [Validators.requiredTrue]],
       tipoDoc: ['CC', [Validators.required]],
     });
@@ -112,13 +112,14 @@ export class LoginComponent {
           sessionStorage.setItem('auth_token', String(validacion.jws));
           this._router.navigate(['/dashboard']); // Redirige al dashboard
         } else {
-          this._alertas.errorLogin('Acceso Denegado' + 'No tienes permiso para acceder.');
+          this._alertas.errorLogin('Acceso Denegado ' + 'No tienes permiso para acceder.');
         }
       },
       error: (err) => {
         if (err.error.error === 'El correo no coincide') {
           this._alertas.errorLogin('El documento no pertenece a un egresado.');
           this.form.setValue({ documento: '', nacimiento: '', expedicion: '', politica: true, tipoDoc: 'CC' });
+          this.isLoading = false;
         } else {
           this.isLoading = false;
           this._alertas.errorLogin(err.error.error || 'Ocurrió un error inesperado');
