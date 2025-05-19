@@ -1,0 +1,80 @@
+<div class="form-responsive">
+  <form class="max-w-md mx-auto mt-6 sm:mt-8 sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="text-center">
+      <h2 class="mb-1 text-sm font-semibold text-gray-700 sm:text-base lg:text-lg dark:text-white">
+        Apreciado usuario<span class="institucional"></span>
+      </h2>
+    </div>
+  
+    <div class="flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-300 after:mt-0.5 after:flex-1 after:border-t after:border-gray-300 dark:before:border-night-500 dark:after:border-night-500">
+      <p class="mx-4 mb-0 text-center text-xxs text-gray-400 sm:text-xs lg:text-sm dark:text-night-400">
+        Ingresa los siguientes datos para continuar
+      </p>
+    </div>
+    <br>
+    <div class="mt-3 space-y-3 sm:mt-5 sm:space-y-5">
+        <div class="form__group">
+            <div class="relative">
+              <input type="date"
+                     class="peer w-full py-1 px-2 text-xs bg-white border-b border-x border-gray-600 border-t-transparent rounded-md shadow-sm focus:outline-none focus:border-x-gray-700 focus:border-b-gray-700 sm:py-1.5 sm:px-3 sm:text-sm"
+                     formControlName="nacimiento" 
+                     autocomplete="off" />
+              
+              <label for="nacimiento"
+                     class="absolute -top-2 left-2 z-10 bg-white px-1 text-[0.6rem] text-gray-500 duration-300 peer-placeholder-shown:top-[6px] peer-placeholder-shown:left-3 peer-placeholder-shown:text-xs peer-focus:-top-2 peer-focus:left-2 peer-focus:text-[0.6rem] peer-focus:text-blue-600 sm:text-xs">
+                <span class="text-red-500 mr-0.5">*</span>Fecha de nacimiento
+              </label>
+              
+              <div class="text-red-500 text-[0.6rem] italic mt-0.5 sm:text-xs" *ngIf="validacion('nacimiento')">
+                {{errorNacimiento}}
+              </div>
+            </div>
+        </div>
+
+        <div class="form__group">
+            <div class="relative">
+              <input type="date"
+                     class="peer w-full py-1 px-2 text-xs bg-white border-b border-x border-gray-600 border-t-transparent rounded-md shadow-sm focus:outline-none focus:border-x-gray-700 focus:border-b-gray-700 sm:py-1.5 sm:px-3 sm:text-sm"
+                     formControlName="expedicion" 
+                     autocomplete="off" />
+              
+              <label for="expedicion"
+                     class="absolute -top-2 left-2 z-10 bg-white px-1 text-[0.6rem] text-gray-500 duration-300 peer-placeholder-shown:top-[6px] peer-placeholder-shown:left-3 peer-placeholder-shown:text-xs peer-focus:-top-2 peer-focus:left-2 peer-focus:text-[0.6rem] peer-focus:text-blue-600 sm:text-xs">
+                <span class="text-red-500 mr-0.5">*</span>Fecha de expedición del documento
+              </label>
+              
+              <div class="text-red-500 text-[0.6rem] italic mt-0.5 sm:text-xs" *ngIf="validacion('expedicion')">
+                {{errorExpedicion}}
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br>
+
+
+    <div class="flex justify-center">
+      <button
+        [ngClass]="{
+          'bg-blue-600 hover:bg-blue-700 text-white shadow-md': !form.invalid,
+          'bg-gray-300 text-gray-500 cursor-not-allowed': form.invalid
+        }"
+        class="w-28 py-1.5 rounded-md text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 sm:w-32 sm:py-2 sm:text-sm"
+        [disabled]="form.invalid">
+        Continuar
+      </button>
+    </div>
+    
+    <br><br><br><br>
+    
+    <div [hidden]="!error">
+      <small class="text-[0.6rem] sm:text-xs">Login incorrecto</small>
+    </div>
+    
+    <div class="bg-gray-100">
+      <div *ngIf="isLoading" class="text-center py-2 text-[0.6rem] bg-blue-200 sm:text-xs sm:py-3">
+        Enviando información...
+      </div>
+    </div>
+  </form>
+</div>

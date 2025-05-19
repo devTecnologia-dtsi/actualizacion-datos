@@ -1,0 +1,115 @@
+<div class="form-responsive">
+    <form class="max-w-md mx-auto mt-6 sm:mt-8 sm:max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="text-center">
+        <h2 class="mb-1 text-sm font-semibold text-gray-700 sm:text-base dark:text-white">
+          Apreciado usuario<span class="institucional"></span>
+        </h2>
+      </div>
+  
+      <div class="flex items-center before:mt-0.5 before:flex-1 before:border-t before:border-gray-300 after:mt-0.5 after:flex-1 after:border-t after:border-gray-300 dark:before:border-night-500 dark:after:border-night-500">
+      <p class="mx-4 mb-0 text-center text-xxs text-gray-400 sm:text-xs dark:text-night-400">
+        Ingresa los siguientes datos para continuar
+      </p>
+    </div>
+    <br>
+    <div class="mt-2 space-y-3 sm:mt-4 sm:space-y-6">
+      <!-- Campo Tipo de Documento con animación -->
+      <div class="form__group">
+        <div class="relative">
+          <select id="tipoDoc"
+            class="peer w-full py-1 px-2 text-xs bg-white border-b border-x border-gray-600 border-t-transparent rounded-md shadow-sm focus:outline-none focus:border-x-gray-700 focus:border-b-gray-700 sm:py-1.5 sm:px-3 sm:text-sm"
+            formControlName="tipoDoc" autocomplete="false">
+            <option value="" disabled selected></option>
+            <option value="CC">Cédula de Ciudadanía</option>
+            <option value="CE">Cédula de Extranjería</option>
+            <option value="TI">Tarjeta de Identidad</option>
+            <option value="PS">Pasaporte</option>
+            <option value="CA">Certificado Cabildo</option>
+            <option value="CR">Contraseña Registraduría</option>
+            <option value="PC">Pasaporte Colombiano</option>
+            <option value="PE">Pasaporte Extranjero</option>
+            <option value="PT">Permiso Protección Temp</option>
+          </select>
+          <label for="tipoDoc"
+            class="absolute -top-2 left-2 z-10 bg-white px-1 text-[0.6rem] text-gray-500 duration-300 peer-placeholder-shown:top-[6px] peer-placeholder-shown:left-3 peer-placeholder-shown:text-xs peer-focus:-top-2 peer-focus:left-2 peer-focus:text-[0.6rem] peer-focus:text-blue-600 sm:text-xs">
+            <span class="text-red-500 mr-0.5">*</span>Tipo de documento
+          </label>
+          <div class="text-red-500 text-[0.6rem] italic mt-0.5 sm:text-xs" *ngIf="validacion('tipoDoc')">
+            {{errortipoDoc}}
+          </div>
+        </div>
+      </div>
+  
+<div class="form__group">
+  <div class="relative">
+    <!-- Input con placeholder oculto -->
+    <input type="text" 
+           id="documento"
+           class="peer w-full py-1 px-2 text-xs bg-white border-b border-x border-gray-600 border-t-transparent rounded-md shadow-sm focus:outline-none focus:border-x-gray-700 focus:border-b-gray-700 sm:py-1.5 sm:px-3 sm:text-sm"
+           formControlName="documento" 
+           autocomplete="off"
+           placeholder=" " /> <!-- Espacio importante aquí -->
+
+    <!-- Label con ANIMACIÓN COMPLETA PERO POSICIÓN FIJA -->
+    <label for="documento"
+           class="absolute -top-2 left-2 z-10 bg-white px-1 text-[0.6rem] text-gray-500 duration-300 peer-focus:text-blue-600 sm:text-xs">
+      <span class="text-red-500 mr-0.5">*</span>Documento de identidad
+    </label>
+
+    <!-- Mensaje de error -->
+    <div class="text-red-500 text-[0.6rem] italic mt-0.5 sm:text-xs" *ngIf="validacion('documento')">
+      El documento es obligatorio.
+    </div>
+  </div>
+</div>
+        <div class="form__group pt-1 sm:pt-2">
+          <div class="flex items-center gap-2 sm:gap-4">
+            <div class="relative inline-block w-10 sm:w-12 h-5 sm:h-6 flex items-center">
+              <input id="cookies" name="cookies" type="checkbox" formControlName="cookies"
+                class="toggle-checkbox absolute block w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-white border-4 appearance-none cursor-pointer top-1/2 -translate-y-1/2" />
+              <label for="cookies"
+                class="toggle-label block overflow-hidden w-full h-4 sm:h-5 rounded-full bg-gray-300 border border-gray-400 cursor-pointer">
+              </label>
+            </div>
+            <div class="flex-1 flex flex-col justify-center">
+              <div class="text-center text-[0.6rem] sm:text-xs md:text-sm text-gray-400 dark:text-night-200">
+                <span class="text-red-500">*</span>He leído, he sido informado(a), y autorizo a UNIMINUTO el tratamiento de mis datos personales para los fines previamente comunicados. ¿Aceptas la 
+                <a href="https://portalweb-uniminuto.s3.amazonaws.com/activos_digitales/autorizacion+tratamiento+datos+UNIMINUTO.pdf" 
+                  target="_blank"
+                  class="underline hover:text-blue-500">
+                  política de tratamiento de datos?
+                </a>
+              </div>  
+              <div class="text-red-500 text-[0.6rem] italic mt-0.5 sm:text-xs text-center" *ngIf="validacion('cookies')">
+                Debes aceptar el uso de cookies
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="flex justify-center pt-2 sm:pt-4">
+          <button
+            [ngClass]="{
+              'bg-blue-600 hover:bg-blue-700 text-white shadow-md': !form.invalid,
+              'bg-gray-300 text-gray-500 cursor-not-allowed': form.invalid
+            }"
+            class="w-28 py-1.5 rounded-md text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 sm:w-32 sm:py-2 sm:text-sm"
+            [disabled]="form.invalid">
+            Continuar
+          </button>
+        </div>
+  
+        <hr class="my-3 sm:my-5 pb-3 sm:pb-6">
+  
+        <div [hidden]="!error">
+          <small class="text-[0.6rem] sm:text-xs">Login incorrecto</small>
+        </div>
+  
+        <div class="bg-gray-100">
+          <div *ngIf="isLoading" class="text-center py-2 text-[0.6rem] bg-blue-200 sm:text-xs sm:py-3">
+            Enviando información...
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

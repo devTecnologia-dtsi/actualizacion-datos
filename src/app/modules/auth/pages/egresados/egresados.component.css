@@ -1,0 +1,20 @@
+.toggle-checkbox:checked {
+    right: 0;
+    left: 50%;
+}
+
+.toggle-label {
+    background-color: #4A5568;
+}
+
+.toggle-checkbox:checked+.toggle-label {
+    background-color: #2C7BE5;
+}
+
+.amarillo-institucional {
+    color: #FFD300;
+}
+
+.azul-institucional {
+    color: #004A93;
+}

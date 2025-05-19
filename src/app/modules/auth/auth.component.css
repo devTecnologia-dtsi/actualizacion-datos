@@ -1,0 +1,35 @@
+.amarillo-institucional {
+    color: #FFD300;
+}
+
+.azul-institucional {
+    background-color: #004A93;
+}
+
+.auth-bg {
+    background-image: url("../../../assets/download.svg");
+}
+
+
+.auth-bg {
+    background-image: url("../../../assets/download.svg");
+}
+
+.titulo-destacado {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+body, div, form, section {
+    border-left: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+  
+  body::before, body::after,
+  div::before, div::after,
+  form::before, form::after {
+    display: none !important;
+    content: none !important;
+  }

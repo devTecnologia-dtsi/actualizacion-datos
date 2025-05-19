@@ -1,0 +1,65 @@
+<div class="w-full bg-white p-6 rounded-lg">
+  <div class="text-center mb-6">
+    <h2 class="text-xl font-medium text-gray-800 mb-2">Antes de continuar</h2>
+    <br>
+    <p class="text-gray-600 text-base">
+      Queremos asegurarnos que nadie manipule tu información personal, por ello te haremos algunas preguntas de seguridad
+    </p>
+  </div>
+  <br>
+
+  <div *ngIf="!cargando; else loadingTemplate" class="mb-6">
+    <h3 class="text-xl font-medium text-gray-800 mb-4 text-center">Pregunta {{numPregunta + 1}} de {{totalPreguntas}}</h3>
+    
+    <p class="text-gray-700 text-base mb-4 leading-normal text-center">
+      {{preguntasArray[numPregunta].valor}}
+    </p>
+
+    <div class="space-y-3">
+      <ng-container *ngFor="let res of respuestasArray; let i = index">
+        <div class="flex items-center">
+          <span class="font-medium text-gray-700 mr-2 text-base">{{getLetter(i)}}.</span>
+          <label class="flex items-center flex-grow cursor-pointer">
+            <input 
+              type="radio" 
+              name="securityQuestion" 
+              [value]="res"
+              [checked]="respuestaSeleccionada === res"
+              (click)="seleccion(res)"
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-2">
+            <span class="text-gray-700 text-base">{{res}}</span>
+          </label>
+        </div>
+      </ng-container>
+
+      <div *ngIf="validarResSAP" class="flex items-center mt-3">
+        <span class="font-medium text-gray-700 mr-2 text-base">{{getLetter(respuestasArray.length)}}.</span>
+        <label class="flex items-center flex-grow cursor-pointer">
+          <input 
+            type="radio" 
+            name="securityQuestion" 
+            value="none"
+            [checked]="respuestaSeleccionada === 'NINGUNA DE LAS ANTERIORES'"
+            (click)="seleccion('NINGUNA DE LAS ANTERIORES')"
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mr-2">
+          <span class="text-gray-700 text-base">NINGUNA DE LAS ANTERIORES</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-8">
+    <button 
+      (click)="siguientePregunta()"
+      [disabled]="!respuestaSeleccionada"
+      class="bg-blue-700 hover:bg-blue-800 text-white font-medium py-2.5 px-7 rounded-md text-base disabled:bg-gray-400 disabled:cursor-not-allowed">
+      {{numPregunta + 1 === totalPreguntas ? 'Finalizar' : 'Continuar'}}
+    </button>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <div class="text-center py-6">
+      <img src="assets/cargando.gif" alt="Cargando..." class="mx-auto h-12">
+    </div>
+  </ng-template>
+</div>
